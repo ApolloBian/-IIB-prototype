@@ -26,6 +26,8 @@
 		F0D66A6D1BE8D22E003C416A /* libopencv_superres.2.4.11.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = F0D66A5B1BE8D22E003C416A /* libopencv_superres.2.4.11.dylib */; };
 		F0D66A6E1BE8D22E003C416A /* libopencv_video.2.4.11.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = F0D66A5C1BE8D22E003C416A /* libopencv_video.2.4.11.dylib */; };
 		F0D66A6F1BE8D22E003C416A /* libopencv_videostab.2.4.11.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = F0D66A5D1BE8D22E003C416A /* libopencv_videostab.2.4.11.dylib */; };
+		F0D66A731BE8D4F5003C416A /* globalVariables.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F0D66A721BE8D4F5003C416A /* globalVariables.cpp */; };
+		F0D66A761BE8DB7D003C416A /* perspectiveTransform.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F0D66A741BE8DB7D003C416A /* perspectiveTransform.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -61,6 +63,10 @@
 		F0D66A5B1BE8D22E003C416A /* libopencv_superres.2.4.11.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libopencv_superres.2.4.11.dylib; path = /usr/local/lib/libopencv_superres.2.4.11.dylib; sourceTree = "<absolute>"; };
 		F0D66A5C1BE8D22E003C416A /* libopencv_video.2.4.11.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libopencv_video.2.4.11.dylib; path = /usr/local/lib/libopencv_video.2.4.11.dylib; sourceTree = "<absolute>"; };
 		F0D66A5D1BE8D22E003C416A /* libopencv_videostab.2.4.11.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libopencv_videostab.2.4.11.dylib; path = /usr/local/lib/libopencv_videostab.2.4.11.dylib; sourceTree = "<absolute>"; };
+		F0D66A711BE8D329003C416A /* image.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = image.h; sourceTree = "<group>"; };
+		F0D66A721BE8D4F5003C416A /* globalVariables.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = globalVariables.cpp; sourceTree = "<group>"; };
+		F0D66A741BE8DB7D003C416A /* perspectiveTransform.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = perspectiveTransform.cpp; sourceTree = "<group>"; };
+		F0D66A751BE8DB7D003C416A /* perspectiveTransform.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = perspectiveTransform.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -113,6 +119,10 @@
 			isa = PBXGroup;
 			children = (
 				F0D66A451BE8D182003C416A /* main.cpp */,
+				F0D66A721BE8D4F5003C416A /* globalVariables.cpp */,
+				F0D66A711BE8D329003C416A /* image.h */,
+				F0D66A741BE8DB7D003C416A /* perspectiveTransform.cpp */,
+				F0D66A751BE8DB7D003C416A /* perspectiveTransform.h */,
 			);
 			path = "工科创IIB-prototype";
 			sourceTree = "<group>";
@@ -198,6 +208,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F0D66A731BE8D4F5003C416A /* globalVariables.cpp in Sources */,
+				F0D66A761BE8DB7D003C416A /* perspectiveTransform.cpp in Sources */,
 				F0D66A461BE8D182003C416A /* main.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -8,7 +8,17 @@
 
 #ifndef perspectiveTransform_hpp
 #define perspectiveTransform_hpp
+#include "image.h"
 
-#include <stdio.h>
+
+
+
+
+void perspective_mouse(int mouseAction , int x , int y , int flags , void * param);        //视角变换鼠标回调函数
+
+void setVariables();
+
+void setPoints();
 
 #endif /* perspectiveTransform_hpp */
+

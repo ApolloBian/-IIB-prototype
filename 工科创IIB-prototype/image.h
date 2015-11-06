@@ -14,6 +14,7 @@
 
 
 
+
 template <class T>
 class Image {
 private:

@@ -8,7 +8,12 @@
 
 #ifndef binarization_h
 #define binarization_h
+#include "image.h"
 
-#include <stdio.h>
+
+
+
+
+
 
 #endif /* binarization_hpp */

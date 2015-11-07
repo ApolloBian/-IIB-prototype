@@ -12,7 +12,13 @@
 #include "cv.h"
 #include "highgui.h"
 
-
+const int leftwindowX = 100;
+const int leftwindowY = 100;
+const int rightwindowX = 750;
+const int rightwindowY = 100;
+const int middlewindowX = 425;
+const int middlewindowY = 100;
+const int squareWindowSize = 600;
 
 
 template <class T>

@@ -8,6 +8,9 @@
 
 #include "perspectiveTransform.h"
 
+IplImage * processImage;
+IplImage * windowImage;
+
 CvPoint2D32f originalPoints[4];
 CvPoint2D32f sequentialPoints[4];
 CvPoint2D32f transPoints[4];
@@ -16,11 +19,30 @@ int perspectiveX;
 int perspectiveY;
 int perspectivecount;
 
+
+
+
+void perspectiveTransform() {
+
+    processImage = windowImage;
+    
+    setVariables();                                                                           //设置四个预设的点
+    setPoints();                                                                              //选取图片上的点
+    cvDestroyWindow("monitor");
+    windowImage = cvCreateImage(cvSize(600,600), IPL_DEPTH_8U, 3);
+    cvGetPerspectiveTransform(originalPoints, transPoints, transmat);                         //计算transmat的值
+    cvWarpPerspective(processImage , windowImage , transmat);                                 //这一句利用transmat进行变换
+    cvNamedWindow("control");
+    cvMoveWindow("control", leftwindowX, leftwindowY);
+    cvShowImage("control", windowImage);
+    cvWaitKey();
+    cvDestroyWindow("control");
+}
 void setVariables() {
-    transPoints[0] = cvPoint2D32f(10, 10);
-    transPoints[1] = cvPoint2D32f(390, 10);
-    transPoints[2] = cvPoint2D32f(10, 390);
-    transPoints[3] = cvPoint2D32f(390, 390);
+    transPoints[0] = cvPoint2D32f(0, 0);
+    transPoints[1] = cvPoint2D32f(squareWindowSize ,0);
+    transPoints[2] = cvPoint2D32f(0, squareWindowSize);
+    transPoints[3] = cvPoint2D32f(squareWindowSize,squareWindowSize);
 }
 
 
@@ -35,7 +57,7 @@ void perspective_mouse(int mouseAction , int x , int y , int flags , void * para
 
 void setPoints() {
     perspectivecount = 0;
-    cvSetMouseCallback("control", perspective_mouse);
+    cvSetMouseCallback("monitor", perspective_mouse);
     while (perspectivecount <= 3) {
         int temp = perspectivecount;
         cvWaitKey(30);

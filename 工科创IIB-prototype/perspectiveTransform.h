@@ -12,7 +12,7 @@
 
 
 
-
+void perspectiveTransform();
 
 void perspective_mouse(int mouseAction , int x , int y , int flags , void * param);        //视角变换鼠标回调函数
 

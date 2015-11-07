@@ -35,6 +35,21 @@ void checkParameter() {
 
 void performHough() {
     checkParameter();
+//    threshold = 62
+//    minLength = 11
+//    maxDistance = 53
+    
+//    threshold = 22
+//    minLength = 25
+//    maxDistance = 17
+    
+//    threshold = 44
+//    minLength = 71
+//    maxDistance = 36
+    
+//    threshold = 44
+//    minLength = 80
+//    maxDistance = 37
     
     lines = cvHoughLines2(srcImage, storage, CV_HOUGH_PROBABILISTIC, 1, CV_PI/180, threshold, minLength, maxDistance);
     cvSetZero(tarImage);
@@ -76,7 +91,7 @@ void houghChangeMaxDistance(int pos) {
 
 void hough() {
     cvNamedWindow("hough");
-    cvMoveWindow("hough", leftwindowX, leftwindowY);
+    cvMoveWindow("hough", middlewindowX, middlewindowY);
     srcImage = binGrayImage;
     storage = cvCreateMemStorage();
     tarImage = cvCreateImage(cvGetSize(srcImage), IPL_DEPTH_8U, 1);

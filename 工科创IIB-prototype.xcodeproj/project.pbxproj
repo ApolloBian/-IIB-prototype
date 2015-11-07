@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		F08B933D1BED8BD2004D2CDE /* hough.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F08B933B1BED8BD2004D2CDE /* hough.cpp */; };
+		F08B93401BED9F51004D2CDE /* tracking.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F08B933E1BED9F51004D2CDE /* tracking.cpp */; };
 		F0D66A461BE8D182003C416A /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F0D66A451BE8D182003C416A /* main.cpp */; };
 		F0D66A5E1BE8D22E003C416A /* libopencv_calib3d.2.4.11.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = F0D66A4C1BE8D22E003C416A /* libopencv_calib3d.2.4.11.dylib */; };
 		F0D66A5F1BE8D22E003C416A /* libopencv_contrib.2.4.11.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = F0D66A4D1BE8D22E003C416A /* libopencv_contrib.2.4.11.dylib */; };
@@ -46,6 +47,8 @@
 /* Begin PBXFileReference section */
 		F08B933B1BED8BD2004D2CDE /* hough.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = hough.cpp; sourceTree = "<group>"; };
 		F08B933C1BED8BD2004D2CDE /* hough.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = hough.h; sourceTree = "<group>"; };
+		F08B933E1BED9F51004D2CDE /* tracking.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = tracking.cpp; sourceTree = "<group>"; };
+		F08B933F1BED9F51004D2CDE /* tracking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tracking.h; sourceTree = "<group>"; };
 		F0D66A421BE8D182003C416A /* 工科创IIB-prototype */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "工科创IIB-prototype"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F0D66A451BE8D182003C416A /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		F0D66A4C1BE8D22E003C416A /* libopencv_calib3d.2.4.11.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libopencv_calib3d.2.4.11.dylib; path = /usr/local/lib/libopencv_calib3d.2.4.11.dylib; sourceTree = "<absolute>"; };
@@ -130,6 +133,8 @@
 				F0D66A781BE8E793003C416A /* binarization.h */,
 				F08B933B1BED8BD2004D2CDE /* hough.cpp */,
 				F08B933C1BED8BD2004D2CDE /* hough.h */,
+				F08B933E1BED9F51004D2CDE /* tracking.cpp */,
+				F08B933F1BED9F51004D2CDE /* tracking.h */,
 			);
 			path = "工科创IIB-prototype";
 			sourceTree = "<group>";
@@ -218,6 +223,7 @@
 				F0D66A761BE8DB7D003C416A /* perspectiveTransform.cpp in Sources */,
 				F0D66A461BE8D182003C416A /* main.cpp in Sources */,
 				F0D66A791BE8E793003C416A /* binarization.cpp in Sources */,
+				F08B93401BED9F51004D2CDE /* tracking.cpp in Sources */,
 				F08B933D1BED8BD2004D2CDE /* hough.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

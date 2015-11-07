@@ -28,7 +28,7 @@ void bin() {
     
     binBinaryImage = cvCreateImage(cvGetSize(binGrayImage), IPL_DEPTH_8U, 1);
     cvNamedWindow("bin");
-    cvMoveWindow("bin", leftwindowX, leftwindowY);
+    cvMoveWindow("bin", middlewindowX, middlewindowY);
     cvShowImage("bin", binGrayImage);
     //    cvShowImage("binary image", g_pGrayImage);
     // 创建二值图窗口
@@ -44,11 +44,12 @@ void bin() {
     //    cvCreateTrackbar("erode", "bin", &binErode , 20 , binerode);
     
     cvWaitKey(0);
+    cvDestroyWindow("bin");
 }
 
 void thin() {
     cvNamedWindow("thin");
-    cvMoveWindow("thin", leftwindowX, leftwindowY);
+    cvMoveWindow("thin", middlewindowX, middlewindowY);
     cvShowImage("thin", binBinaryImage);
     cvCreateTrackbar("iterations", "thin", &binIterations, 50, thin);
     cvWaitKey(0);

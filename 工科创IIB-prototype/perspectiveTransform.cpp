@@ -29,11 +29,11 @@ void perspectiveTransform() {
     setVariables();                                                                           //设置四个预设的点
     setPoints();                                                                              //选取图片上的点
     cvDestroyWindow("monitor");
-    windowImage = cvCreateImage(cvSize(600,600), IPL_DEPTH_8U, 3);
+    windowImage = cvCreateImage(cvSize(squareWindowSize,squareWindowSize), IPL_DEPTH_8U, 3);
     cvGetPerspectiveTransform(originalPoints, transPoints, transmat);                         //计算transmat的值
     cvWarpPerspective(processImage , windowImage , transmat);                                 //这一句利用transmat进行变换
     cvNamedWindow("control");
-    cvMoveWindow("control", leftwindowX, leftwindowY);
+    cvMoveWindow("control", middlewindowX, middlewindowY);
     cvShowImage("control", windowImage);
     cvWaitKey();
     cvDestroyWindow("control");

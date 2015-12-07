@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F06AB4921C129277003D03ED /* bluetoothModule.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F06AB4901C129277003D03ED /* bluetoothModule.cpp */; };
+		F06AB4951C12D5EE003D03ED /* controlling.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F06AB4931C12D5EE003D03ED /* controlling.cpp */; };
 		F08B933D1BED8BD2004D2CDE /* hough.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F08B933B1BED8BD2004D2CDE /* hough.cpp */; };
 		F08B93401BED9F51004D2CDE /* tracking.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F08B933E1BED9F51004D2CDE /* tracking.cpp */; };
 		F0D66A461BE8D182003C416A /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F0D66A451BE8D182003C416A /* main.cpp */; };
@@ -45,6 +47,10 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		F06AB4901C129277003D03ED /* bluetoothModule.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = bluetoothModule.cpp; sourceTree = "<group>"; };
+		F06AB4911C129277003D03ED /* bluetoothModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = bluetoothModule.h; sourceTree = "<group>"; };
+		F06AB4931C12D5EE003D03ED /* controlling.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = controlling.cpp; sourceTree = "<group>"; };
+		F06AB4941C12D5EE003D03ED /* controlling.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = controlling.h; sourceTree = "<group>"; };
 		F08B933B1BED8BD2004D2CDE /* hough.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = hough.cpp; sourceTree = "<group>"; };
 		F08B933C1BED8BD2004D2CDE /* hough.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = hough.h; sourceTree = "<group>"; };
 		F08B933E1BED9F51004D2CDE /* tracking.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = tracking.cpp; sourceTree = "<group>"; };
@@ -133,8 +139,12 @@
 				F0D66A781BE8E793003C416A /* binarization.h */,
 				F08B933B1BED8BD2004D2CDE /* hough.cpp */,
 				F08B933C1BED8BD2004D2CDE /* hough.h */,
+				F06AB4931C12D5EE003D03ED /* controlling.cpp */,
+				F06AB4941C12D5EE003D03ED /* controlling.h */,
 				F08B933E1BED9F51004D2CDE /* tracking.cpp */,
 				F08B933F1BED9F51004D2CDE /* tracking.h */,
+				F06AB4901C129277003D03ED /* bluetoothModule.cpp */,
+				F06AB4911C129277003D03ED /* bluetoothModule.h */,
 			);
 			path = "工科创IIB-prototype";
 			sourceTree = "<group>";
@@ -220,10 +230,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F06AB4921C129277003D03ED /* bluetoothModule.cpp in Sources */,
 				F0D66A761BE8DB7D003C416A /* perspectiveTransform.cpp in Sources */,
 				F0D66A461BE8D182003C416A /* main.cpp in Sources */,
 				F0D66A791BE8E793003C416A /* binarization.cpp in Sources */,
 				F08B93401BED9F51004D2CDE /* tracking.cpp in Sources */,
+				F06AB4951C12D5EE003D03ED /* controlling.cpp in Sources */,
 				F08B933D1BED8BD2004D2CDE /* hough.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

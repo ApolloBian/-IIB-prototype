@@ -10,8 +10,16 @@
 #define tracking_h
 #include "image.h"
 
-void tracking();
-void calcHistogram();
+const char monitor[] = "monitor";
+const char trackwindowName[] = "tracking";
+const char carfront[] = "/Users/apollo/Developer/PCControlled_Car_II-B/主程序/工科创IIB-prototype/工科创IIB-prototype/IMG_1033.JPG";
+const char carback[] =  "/Users/apollo/Developer/PCControlled_Car_II-B/主程序/工科创IIB-prototype/工科创IIB-prototype/IMG_1034.JPG";
+
+
+void controlling();
+void calcHistogram(const char * tarPath,CvHistogram * &tarHistogram);
+
+
 
 
 #endif /* tracking_hpp */

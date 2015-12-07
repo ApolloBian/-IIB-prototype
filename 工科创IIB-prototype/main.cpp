@@ -12,7 +12,7 @@
 #include "perspectiveTransform.h"
 #include "binarization.h"
 #include "hough.h"
-#include "tracking.h"
+#include "controlling.h"
 using namespace std;
 
 //注:窗口是全局变量，无论在哪个文件中调用窗口的名字都是对同一个窗口进行操作
@@ -25,14 +25,16 @@ int main() {
 // capture camera
     extern IplImage * windowImage;
     extern IplImage * processImage;
-    CvCapture * cam = cvCreateCameraCapture(-1);
+    CvCapture * cam;
+    cam = cvCreateCameraCapture(-
+                                1);
     cvNamedWindow("monitor");
     if (!cam) {
         return -1;
     }
     while (1) {
         windowImage = cvQueryFrame(cam);
-        if (cvWaitKey(1) == '\r') {
+        if (cvWaitKey(50) == '\r') {
 
             cvShowImage("monitor", windowImage);
             break;
@@ -45,24 +47,16 @@ int main() {
 // perspective transform, 变换一帧图像大约需要不到5ms(对于1020 × 790的图像需要3.577ms)
     extern CvMat * transmat;                                                                  //这个变量在后面还会用到
     perspectiveTransform();
+
+ 
     bin();
     thin();
-    hough();    
+    hough();
+    
 // tracking
-    tracking();
+    controlling();
     
-    
-    
-    
-    
-    
-    
-    
-// control car
-    
-    
-    
-// quit program, release memory & other stuff
+
     cvReleaseCapture(&cam);
     return 0;
     

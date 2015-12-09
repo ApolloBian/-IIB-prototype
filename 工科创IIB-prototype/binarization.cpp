@@ -14,12 +14,13 @@ int binIterations;
 int houghThreshold;
 int houghDistance;
 //int binErode;
+IplImage * staticImage;
 IplImage * binGrayImage;
 IplImage * binBinaryImage;
 extern IplImage * windowImage;
 
 void bin() {
-
+    staticImage = windowImage;
     extern int binIterations;
     extern IplImage * binGrayImage;
     extern IplImage * binBinaryImage;

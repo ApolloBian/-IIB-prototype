@@ -13,7 +13,6 @@
 
 
 
-
 void calcHistogram(const char * tarPath,CvHistogram *& tarHistogram) {
     IplImage* tar = cvLoadImage(tarPath); //目标图像
     IplImage* tarhsv = cvCreateImage(cvGetSize(tar), 8, 3); //HSV空间的目标图像

@@ -17,17 +17,30 @@ using namespace std;
 
 //注:窗口是全局变量，无论在哪个文件中调用窗口的名字都是对同一个窗口进行操作
 
+extern int fd;
 
 
 
 int main() {
     
+// connecting car
+    int ret;
+    fd = UART_Open(fd,dev2);
+    ret = UART_Init(fd,115200,0,8,1,'N');
+
+    while (fd == FALSE) {
+        fd = UART_Open(fd,dev2);
+        ret = UART_Init(fd,115200,0,8,1,'N');
+    }
+    stop(fd);
+    
+    
+    
 // capture camera
     extern IplImage * windowImage;
     extern IplImage * processImage;
     CvCapture * cam;
-    cam = cvCreateCameraCapture(-
-                                1);
+    cam = cvCreateCameraCapture(1);
     cvNamedWindow("monitor");
     if (!cam) {
         return -1;
@@ -44,6 +57,7 @@ int main() {
     
     
     
+    
 // perspective transform, 变换一帧图像大约需要不到5ms(对于1020 × 790的图像需要3.577ms)
     extern CvMat * transmat;                                                                  //这个变量在后面还会用到
     perspectiveTransform();
@@ -54,7 +68,7 @@ int main() {
     hough();
     
 // tracking
-    controlling();
+    controlling(fd);
     
 
     cvReleaseCapture(&cam);

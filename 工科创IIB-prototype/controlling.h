@@ -5,6 +5,6 @@
 #include "tracking.h"
 
 
-void controlling();
+void controlling(int);
 
 #endif /* controlling_hpp */

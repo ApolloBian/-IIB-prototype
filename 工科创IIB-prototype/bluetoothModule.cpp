@@ -1,5 +1,26 @@
 #include "bluetoothModule.h"
 
+
+char status = 's';
+
+int fd = FALSE;
+
+
+
+void changeStatus() {
+    if (status != 's') {
+        stop(fd);
+        status = 's';
+    }
+    else {
+        go(fd);
+        status = 'g';
+    }
+}
+
+
+
+
 int UART_Send(int fd, char *send_buf,int data_len)
 {
     int ret;
@@ -44,7 +65,7 @@ int UART_Recv(int fd, char *rcv_buf,int data_len)
 
 
 
-int UART_Open(int fd,const char* port){
+int UART_Open(int fd, char* port){
     fd = open( port, O_RDWR|O_NOCTTY|O_NDELAY);
     if (FALSE == fd){
         perror("Bluetooth device offline");
@@ -204,27 +225,25 @@ int UART_Init(int fd, int speed,int flow_ctrlint ,int databits,int stopbits,char
 
 
 void go(int fd) {
-    write(fd,"g",1);
+    write(fd,"2",1);
 }
 
 void stop(int fd) {
-//    char result[3];
-    write(fd,"s",1);
-//    read(fd, result, 3);
-//    if (result[0] == 't'){
-//        return true;
-//    } else {
-//        return false;
-//    }
+
+    write(fd,"5",1);
+
 }
 
 
 void turnleft(int fd) {
-    write(fd,"l",1);
+
+    write(fd,"4",1);
+    
 }
 
 void turnright(int fd) {
-    write(fd, "r", 1);
+    write(fd, "6", 1);
+
 }
 
 

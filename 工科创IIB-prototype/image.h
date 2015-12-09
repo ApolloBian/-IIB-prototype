@@ -20,6 +20,16 @@ const int middlewindowX = 425;
 const int middlewindowY = 100;
 const int squareWindowSize = 600;
 
+const int carSize = 30;
+
+
+
+bool sameLine(CvPoint * line1 , CvPoint * line2);
+double length(CvPoint & p1 , CvPoint & p2 );
+double length(CvPoint * l1);
+double distance(CvPoint & p1 , CvPoint * l1);
+
+
 
 template <class T>
 class Image {
@@ -40,6 +50,24 @@ struct RGBPixel {
 
 typedef Image<RGBPixel> RGBImage;           /* Use [i][j].r/g/b to visit the i row j line  */
 typedef Image<unsigned char> BWImage;       /* Use [i][j] to visit the i row j line        */
+
+
+
+
+struct carSeq {
+    int currentIndex;
+    int currentEnd;
+    int entranceIndex;
+    int entranceEnd; // 0/1
+    CvPoint * line [100];
+    bool lineStatus[100][2];
+    int numberOfLines;
+    carSeq();
+    void build(CvSeq * lines);
+    void reset();
+};
+
+void print(carSeq & path, IplImage * tarImage);
 
 
 #endif /* image_h */

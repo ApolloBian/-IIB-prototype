@@ -14,7 +14,7 @@ extern IplImage * binGrayImage;
 extern IplImage * windowImage;
 
 
-int threshold = 22;
+int threshold = 62;
 int minLength = 45;
 int maxDistance = 70;
 CvSeq* lines;
@@ -42,10 +42,6 @@ void checkParameter() {
 void performHough() {
     checkParameter();
 
-    
-    
-    
-    
     
     lines = cvHoughLines2(srcImage, storage, CV_HOUGH_PROBABILISTIC, 1, CV_PI/180, threshold, minLength, maxDistance);
     tarImage = cvCloneImage(windowImage);

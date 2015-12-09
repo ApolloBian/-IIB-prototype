@@ -32,6 +32,7 @@
 		F0D66A6F1BE8D22E003C416A /* libopencv_videostab.2.4.11.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = F0D66A5D1BE8D22E003C416A /* libopencv_videostab.2.4.11.dylib */; };
 		F0D66A761BE8DB7D003C416A /* perspectiveTransform.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F0D66A741BE8DB7D003C416A /* perspectiveTransform.cpp */; };
 		F0D66A791BE8E793003C416A /* binarization.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F0D66A771BE8E793003C416A /* binarization.cpp */; };
+		F0EC04051C1821DE00D2FB10 /* timecalc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F0EC04041C1821DE00D2FB10 /* timecalc.cpp */; };
 		F0FA89401C155BAE00A15909 /* image.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F0FA893F1C155BAE00A15909 /* image.cpp */; };
 /* End PBXBuildFile section */
 
@@ -82,6 +83,7 @@
 		F0D66A771BE8E793003C416A /* binarization.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = binarization.cpp; sourceTree = "<group>"; };
 		F0D66A781BE8E793003C416A /* binarization.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = binarization.h; sourceTree = "<group>"; };
 		F0EC04021C17ED8900D2FB10 /* timecalc.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = timecalc.h; path = "工科创IIB-prototype/timecalc.h"; sourceTree = "<group>"; };
+		F0EC04041C1821DE00D2FB10 /* timecalc.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = timecalc.cpp; path = "工科创IIB-prototype/timecalc.cpp"; sourceTree = "<group>"; };
 		F0FA893F1C155BAE00A15909 /* image.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = image.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -183,6 +185,7 @@
 			isa = PBXGroup;
 			children = (
 				F0EC04021C17ED8900D2FB10 /* timecalc.h */,
+				F0EC04041C1821DE00D2FB10 /* timecalc.cpp */,
 			);
 			name = "Debug Sections";
 			sourceTree = "<group>";
@@ -247,6 +250,7 @@
 				F0D66A761BE8DB7D003C416A /* perspectiveTransform.cpp in Sources */,
 				F0D66A461BE8D182003C416A /* main.cpp in Sources */,
 				F0D66A791BE8E793003C416A /* binarization.cpp in Sources */,
+				F0EC04051C1821DE00D2FB10 /* timecalc.cpp in Sources */,
 				F08B93401BED9F51004D2CDE /* tracking.cpp in Sources */,
 				F0FA89401C155BAE00A15909 /* image.cpp in Sources */,
 				F06AB4951C12D5EE003D03ED /* controlling.cpp in Sources */,

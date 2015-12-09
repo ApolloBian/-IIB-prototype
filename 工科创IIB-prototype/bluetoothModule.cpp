@@ -229,24 +229,26 @@ int UART_Init(int fd, int speed,int flow_ctrlint ,int databits,int stopbits,char
 
 
 void go(int fd) {
-    write(fd,"2",1);
+    printf("go\n");
+    write(fd,"4",1);
 }
 
 void stop(int fd) {
-
+    printf("stop\n");
     write(fd,"5",1);
 
 }
 
 
 void turnleft(int fd) {
-
-    write(fd,"4",1);
+    printf("left\n");
+    write(fd,"8",1);
     
 }
 
 void turnright(int fd) {
-    write(fd, "6", 1);
+    printf("right\n");
+    write(fd, "2", 1);
 
 }
 

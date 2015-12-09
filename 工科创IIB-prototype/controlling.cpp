@@ -32,8 +32,8 @@ extern int fd;
 
 
 
-double COS  = cos(M_PI/40);
-int _distance = 50;
+double COS  = cos(M_PI/60);
+int _distance = 80;
 
 int vmin = 50;
 int vmax = 256;
@@ -84,16 +84,20 @@ void locateCar() {                                                              
     
     
     cvCalcBackProject(&hue, backprojectF , carFrontHistogram);
+    cvShowImage("parameter", backprojectF);
+
     cvAnd(backprojectF, mask, backprojectF,0);
     cvCamShift( backprojectF, track_windowF,cvTermCriteria( CV_TERMCRIT_EPS | CV_TERMCRIT_ITER, 10, 1 ),&track_compF, &track_boxF );
     track_windowF = track_compF.rect;
-    cvRectangleR(monitorImage,track_windowF, CV_RGB(255,0,0),3,CV_AA,0);
+    cvRectangleR(monitorImage,track_windowF, CV_RGB(0,0,255),3,CV_AA,0);
 
     cvCalcBackProject(&hue, backprojectB, carBackHistogram);
     cvAnd(backprojectB, mask, backprojectB,0);
     cvCamShift( backprojectB, track_windowB,cvTermCriteria( CV_TERMCRIT_EPS | CV_TERMCRIT_ITER, 10, 1 ),&track_compB, &track_boxB );
     track_windowB = track_compB.rect;
-    cvRectangleR(monitorImage,track_windowB, CV_RGB(255,0,0),3,CV_AA,0);
+    cvRectangleR(monitorImage,track_windowB, CV_RGB(0,255,0),3,CV_AA,0);
+    
+    
     
     pointB.x = track_windowB.x+track_windowB.width/2;
     pointB.y = track_windowB.y+track_windowB.height/2;
@@ -104,19 +108,24 @@ void locateCar() {                                                              
     pointM.x = (pointB.x +pointF.x)/2;
     pointM.y = (pointF.y + pointB.y)/2;
     
+//    cvRectangleR(monitorImage,track_windowB, CV_RGB(255,0,0),3,CV_AA,0);
+    CvRect rect;
+    rect.width = rect.height = 10;
+    rect.x = pointM.x-5;
+    rect.y = pointM.y-5;
+    cvRectangleR(monitorImage,rect, CV_RGB(255,255,255),3,CV_AA,0);
     
-    cvRectangleR(monitorImage,track_windowB, CV_RGB(255,0,0),3,CV_AA,0);
-    cvCircle(monitorImage, pointM ,3 , CV_RGB(0,255,0),1, 8, 3 );
-    cvLine(monitorImage, pointB, pointF ,CV_RGB(255,0,0),_distance,CV_AA,0);
     
-    printf("(%d,%d)",pointM.x,pointM.y);
+    cvLine(monitorImage, pointB, pointF ,CV_RGB(255,0,0),1,CV_AA,0);
+    
+//    printf("(%d,%d)",pointM.x,pointM.y);
     
     
    
 }
 
 
-bool refreshPathStatus(){
+int refreshPathStatus(){
     for (int i = 0 ; i < path.numberOfLines; ++i) {
         for (int j = 0 ; j < 2 ; ++j) {
             if (path.lineStatus[i][j]) {
@@ -152,16 +161,16 @@ bool refreshPathStatus(){
             }
         }
         if (!flag) {
-            stop(fd);
-            path.reset();
+            return -1;
         }
-        return true;
+        return 1;
     }
-    return false;
+    return 0;
 }
 
 
 void turnToNextPoint() {
+    printf("turn");
     double x1 = pointF.x-pointB.x;
     double y1 = pointF.y-pointB.y;
     double x2 = 1;
@@ -188,9 +197,42 @@ void turnToNextPoint() {
         y1 = pointF.y-pointB.y;
         theta = (x1*x2+y1*y2)/sqrt((x1*x1+y1*y1)*(x2*x2+y2*y2));
     }
+    printf("cos = %f",theta);
     stop(fd);
     getNewFrame();
     locateCar();
+}
+
+int gotoNextPoint() {
+    printf("go");
+    go(fd);
+    while (true) {
+        getNewFrame();
+        locateCar();
+        print(path, monitorImage);
+        cvShowImage(monitor, monitorImage);
+        
+        // debug
+            
+        //
+        
+        
+        if (refreshPathStatus()!=0) {
+            return refreshPathStatus();
+        }
+    }
+    return 0;
+}
+
+
+
+
+void gotoEntrance() {
+    path.reset();
+    turnToNextPoint();
+    gotoNextPoint();
+    path.reset();
+    path.currentEnd = !path.currentEnd;
 }
 
 
@@ -203,6 +245,11 @@ void controlling(int fd) {
     mask = cvCreateImage(cvGetSize(hsv), IPL_DEPTH_8U, 1);
     backprojectF = cvCreateImage(cvGetSize(hsv), IPL_DEPTH_8U, 1);
     backprojectB = cvCreateImage(cvGetSize(hsv), IPL_DEPTH_8U, 1);
+    
+    cvNamedWindow("parameter");
+    cvCreateTrackbar("vmin", "parameter", &vmin,300);
+    cvCreateTrackbar("vmax", "parameter", &vmax, 300);
+    cvCreateTrackbar("smin", "parameter", &smin, 300);
     
     
 
@@ -223,27 +270,36 @@ void controlling(int fd) {
             break; 
         }
     }
-    
     cvWaitKey(1000);
-    
-    getNewFrame();
-    locateCar();
-    refreshPathStatus();
-    print(path, monitorImage);
-    cvShowImage(monitor, monitorImage);
 
-    go(fd);
-    
-//
     while (true) {
-        getNewFrame();
-        locateCar();
-        if (refreshPathStatus()) {
+        gotoEntrance();
+        while (gotoNextPoint()!=-1) {
             turnToNextPoint();
-            go(fd);
         }
-        print(path, monitorImage);
-        cvShowImage(monitor, monitorImage);
     }
+    
+    
+//    getNewFrame();
+//    locateCar();
+//    refreshPathStatus();
+//    print(path, monitorImage);
+//    cvShowImage(monitor, monitorImage);
+//
+//    go(fd);
+//    
+////
+//    while (true) {
+//        getNewFrame();
+//        locateCar();
+//        
+//        
+//        if (refreshPathStatus()) {
+//            turnToNextPoint();
+//            go(fd);
+//        }
+//        print(path, monitorImage);
+//        cvShowImage(monitor, monitorImage);
+//    }
 
 }

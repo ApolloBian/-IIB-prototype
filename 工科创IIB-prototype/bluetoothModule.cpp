@@ -1,10 +1,14 @@
 #include "bluetoothModule.h"
 
+double FALSE_ = -1;
+double TRUE_ = 0;
 
 char status = 's';
 
-int fd = FALSE;
+int fd = FALSE_;
 
+char dev1[] = "/dev/cu.RobotBase-DevB";
+char dev2[] = "/dev/cu.HC-07-DevB";
 
 
 void changeStatus() {
@@ -30,7 +34,7 @@ int UART_Send(int fd, char *send_buf,int data_len)
         return ret;
     } else {
         tcflush(fd,TCOFLUSH);
-        return FALSE;
+        return FALSE_;
     }
 }
 
@@ -56,7 +60,7 @@ int UART_Recv(int fd, char *rcv_buf,int data_len)
         len = (int)read(fd,rcv_buf,data_len);
         return len;
     } else {
-        return FALSE;
+        return FALSE_;
     }
 }
 
@@ -67,19 +71,19 @@ int UART_Recv(int fd, char *rcv_buf,int data_len)
 
 int UART_Open(int fd, char* port){
     fd = open( port, O_RDWR|O_NOCTTY|O_NDELAY);
-    if (FALSE == fd){
+    if (FALSE_ == fd){
         perror("Bluetooth device offline");
-        return(FALSE);
+        return(FALSE_);
     }
     if(fcntl(fd, F_SETFL, 0) < 0){                                                                          //判断串口的状态是否为阻塞状态
         printf("fcntl failed!\n");
-        return(FALSE);
+        return(FALSE_);
     } else {
         printf("Blutooth device online ,fcntl=%d\n",fcntl(fd, F_SETFL,0));
     }
     if(0 == isatty(STDIN_FILENO)){                                                                          //测试是否为终端设备
         printf("standard input is not a terminal device\n");
-        return(FALSE);
+        return(FALSE_);
     }
     return fd;
 }
@@ -109,7 +113,7 @@ int UART_Set(int fd,int speed,int flow_ctrl,int databits,int stopbits,int parity
      */
     if(tcgetattr( fd,&options) != 0){
         perror("SetupSerial 1");
-        return(FALSE);
+        return(FALSE_);
     }
     
     //设置串口输入波特率和输出波特率
@@ -152,7 +156,7 @@ int UART_Set(int fd,int speed,int flow_ctrl,int databits,int stopbits,int parity
             break;
         default:
             fprintf(stderr,"Unsupported data size\n");
-            return (FALSE);
+            return (FALSE_);
     }
     //设置校验位
     switch (parity) {
@@ -179,7 +183,7 @@ int UART_Set(int fd,int speed,int flow_ctrl,int databits,int stopbits,int parity
             break;
         default:
             fprintf(stderr,"Unsupported parity\n");
-            return (FALSE);
+            return (FALSE_);
     }
     // 设置停止位
     switch (stopbits){
@@ -191,7 +195,7 @@ int UART_Set(int fd,int speed,int flow_ctrl,int databits,int stopbits,int parity
             break;
         default:
             fprintf(stderr,"Unsupported stop bits\n");
-            return (FALSE);
+            return (FALSE_);
     }
     //修改输出模式，原始数据输出
     options.c_oflag &= ~OPOST;
@@ -206,19 +210,19 @@ int UART_Set(int fd,int speed,int flow_ctrl,int databits,int stopbits,int parity
     if (tcsetattr(fd,TCSANOW,&options) != 0)
     {
         perror("com set error!/n");
-        return (FALSE);
+        return (FALSE_);
     }
-    return (TRUE);
+    return (TRUE_);
 }
 
 
 int UART_Init(int fd, int speed,int flow_ctrlint ,int databits,int stopbits,char parity)
 {
     //设置串口数据帧格式
-    if (FALSE == UART_Set(fd,speed,flow_ctrlint,databits,stopbits,parity)) {
-        return FALSE;
+    if (FALSE_ == UART_Set(fd,speed,flow_ctrlint,databits,stopbits,parity)) {
+        return FALSE_;
     } else {
-        return TRUE;
+        return TRUE_;
     }
 }
 

@@ -12,11 +12,9 @@
 #include <string.h>
 #include <iostream>
 
-#define FALSE -1
-#define TRUE 0
 
-#define dev1 "/dev/cu.RobotBase-DevB"
-#define dev2 "/dev/cu.HC-07-DevB"
+
+
 
 void go(int fd);
 void stop(int fd);

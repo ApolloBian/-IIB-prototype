@@ -76,8 +76,8 @@ void print(carSeq & path, IplImage * tarImage) {
     for (int i = 0 ; i < path.numberOfLines; ++i) {
         for (int j = 0 ; j < 2 ; ++j) {
             CvPoint * line = path.line[i];
-            rect.x = line[0].x-5;
-            rect.y = line[0].y-5;
+            rect.x = line[j].x-5;
+            rect.y = line[j].y-5;
             cvRectangleR(tarImage,rect, color[path.lineStatus[i][j]],3,CV_AA,0);
         }
         

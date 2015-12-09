@@ -5,29 +5,53 @@
 
 using namespace cv;
 
-double COS  = cos(M_PI/40);
+/* debug section
 
+ timeval a,b;
+
+ 
+ gettimeofday(&b, NULL);
+ myTime::timeCalc(a, b);
+ 
+ 
+ gettimeofday(&b, NULL);
+ myTime::timeCalc(a, b);
+ 
+ gettimeofday(&a, NULL);
+
+ 
+ */
 
 extern CvMat * transmat;
-
-CvHistogram* carFrontHistogram;
-CvHistogram* carBackHistogram;
+extern CvSeq* lines;
+extern CvPoint * lineArray[20];
+extern carSeq path;
 
 extern int fd;
 
-//int vmin = 50;
-//int vmax = 256;
-//int smin = 80;
+
+
+
+double COS  = cos(M_PI/40);
+int _distance = 50;
 
 int vmin = 50;
 int vmax = 256;
 int smin = 80;
+//int vmin = 50;
+//int vmax = 256;
+//int smin = 80;
 
-extern CvSeq* lines;
 
-extern CvPoint * lineArray[20];
+CvHistogram* carFrontHistogram;
+CvHistogram* carBackHistogram;
 
-extern carSeq path;
+
+
+
+
+
+
 
 
 //本地变量
@@ -45,7 +69,7 @@ CvConnectedComp track_compF,track_compB;
 
 int _vmin = vmin, _vmax = vmax,_smin = smin;
 CvPoint pointB, pointF;
-CvPoint midPoint;
+CvPoint pointM;
 
 
 void getNewFrame() {                                                                //
@@ -76,25 +100,31 @@ void locateCar() {                                                              
     
     pointF.x = track_windowF.x+track_windowF.width/2;
     pointF.y = track_windowF.y+track_windowF.height/2;
-    cvLine(monitorImage, pointB, pointF ,CV_RGB(255,0,0),3,CV_AA,0);
+    
+    pointM.x = (pointB.x +pointF.x)/2;
+    pointM.y = (pointF.y + pointB.y)/2;
+    
+    
+    cvRectangleR(monitorImage,track_windowB, CV_RGB(255,0,0),3,CV_AA,0);
+    cvCircle(monitorImage, pointM ,3 , CV_RGB(0,255,0),1, 8, 3 );
+    cvLine(monitorImage, pointB, pointF ,CV_RGB(255,0,0),_distance,CV_AA,0);
+    
+    printf("(%d,%d)",pointM.x,pointM.y);
+    
+    
    
 }
 
-timeval a,b;
 
 bool refreshPathStatus(){
-    gettimeofday(&a, NULL);
-    midPoint.x = pointB.x +pointF.x;
-    midPoint.y = pointF.y + pointB.y;
     for (int i = 0 ; i < path.numberOfLines; ++i) {
         for (int j = 0 ; j < 2 ; ++j) {
             if (path.lineStatus[i][j]) {
                 continue;
             }
-            if (length(midPoint, path.line[i][j]) < 100) {
+            if (length(pointM, path.line[i][j]) < _distance) {
                 path.lineStatus[i][j] = true;
             }
-            
         }
     }
     if (path.lineStatus[path.currentIndex][path.currentEnd]) {
@@ -110,8 +140,8 @@ bool refreshPathStatus(){
                 if (path.lineStatus[i][j]) {
                     continue;
                 }
-                x2 = path.line[i][j].x-midPoint.x;
-                y2 = path.line[i][j].y-midPoint.y;
+                x2 = path.line[i][j].x-pointM.x;
+                y2 = path.line[i][j].y-pointM.y;
                 curTurn = (x1*x2+y1*y2)/sqrt((x1*x1+y1*y1)*(x2*x2+y2*y2));
                 if (curTurn > minTurn) {
                     flag = true;
@@ -122,17 +152,12 @@ bool refreshPathStatus(){
             }
         }
         if (!flag) {
+            stop(fd);
             path.reset();
         }
-        gettimeofday(&b, NULL);
-        myTime::timeCalc(a, b);
         return true;
     }
-    gettimeofday(&b, NULL);
-    myTime::timeCalc(a, b);
     return false;
-    
-    
 }
 
 
@@ -142,8 +167,8 @@ void turnToNextPoint() {
     double x2 = 1;
     double y2 = 1;
     double theta = -1;
-    x2 = path.line[path.currentIndex][path.currentEnd].x-midPoint.x;
-    y2 = path.line[path.currentIndex][path.currentEnd].y-midPoint.y;
+    x2 = path.line[path.currentIndex][path.currentEnd].x-pointM.x;
+    y2 = path.line[path.currentIndex][path.currentEnd].y-pointM.y;
     theta = (x1*x2+y1*y2)/sqrt((x1*x1+y1*y1)*(x2*x2+y2*y2));
     
     if (y1*x2-y2*x1 > 0) {
@@ -157,8 +182,8 @@ void turnToNextPoint() {
         locateCar();
         print(path, monitorImage);
         cvShowImage(monitor, monitorImage);
-        x2 = path.line[path.currentIndex][path.currentEnd].x-midPoint.x;
-        y2 = path.line[path.currentIndex][path.currentEnd].y-midPoint.y;
+        x2 = path.line[path.currentIndex][path.currentEnd].x-pointM.x;
+        y2 = path.line[path.currentIndex][path.currentEnd].y-pointM.y;
         x1 = pointF.x-pointB.x;
         y1 = pointF.y-pointB.y;
         theta = (x1*x2+y1*y2)/sqrt((x1*x1+y1*y1)*(x2*x2+y2*y2));
@@ -206,14 +231,11 @@ void controlling(int fd) {
     refreshPathStatus();
     print(path, monitorImage);
     cvShowImage(monitor, monitorImage);
-//    turnToNextPoint();
-//    cvWaitKey(0);
 
     go(fd);
     
 //
     while (true) {
-        
         getNewFrame();
         locateCar();
         if (refreshPathStatus()) {
@@ -222,10 +244,6 @@ void controlling(int fd) {
         }
         print(path, monitorImage);
         cvShowImage(monitor, monitorImage);
-
     }
-    stop(fd);
-    
-    
-    
+
 }

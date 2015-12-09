@@ -81,8 +81,8 @@
 		F0D66A751BE8DB7D003C416A /* perspectiveTransform.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = perspectiveTransform.h; sourceTree = "<group>"; };
 		F0D66A771BE8E793003C416A /* binarization.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = binarization.cpp; sourceTree = "<group>"; };
 		F0D66A781BE8E793003C416A /* binarization.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = binarization.h; sourceTree = "<group>"; };
+		F0EC04021C17ED8900D2FB10 /* timecalc.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = timecalc.h; path = "工科创IIB-prototype/timecalc.h"; sourceTree = "<group>"; };
 		F0FA893F1C155BAE00A15909 /* image.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = image.cpp; sourceTree = "<group>"; };
-		F0FA89431C15FFC600A15909 /* timecalc.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = timecalc.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -117,6 +117,7 @@
 		F0D66A391BE8D182003C416A = {
 			isa = PBXGroup;
 			children = (
+				F0EC04031C17F39F00D2FB10 /* Debug Sections */,
 				F0D66A441BE8D182003C416A /* 工科创IIB-prototype */,
 				F0D66A701BE8D237003C416A /* dylibs */,
 				F0D66A431BE8D182003C416A /* Products */,
@@ -143,7 +144,6 @@
 				F0D66A781BE8E793003C416A /* binarization.h */,
 				F08B933B1BED8BD2004D2CDE /* hough.cpp */,
 				F08B933C1BED8BD2004D2CDE /* hough.h */,
-				F0FA89431C15FFC600A15909 /* timecalc.h */,
 				F06AB4931C12D5EE003D03ED /* controlling.cpp */,
 				F06AB4941C12D5EE003D03ED /* controlling.h */,
 				F08B933E1BED9F51004D2CDE /* tracking.cpp */,
@@ -177,6 +177,14 @@
 				F0D66A5D1BE8D22E003C416A /* libopencv_videostab.2.4.11.dylib */,
 			);
 			name = dylibs;
+			sourceTree = "<group>";
+		};
+		F0EC04031C17F39F00D2FB10 /* Debug Sections */ = {
+			isa = PBXGroup;
+			children = (
+				F0EC04021C17ED8900D2FB10 /* timecalc.h */,
+			);
+			name = "Debug Sections";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

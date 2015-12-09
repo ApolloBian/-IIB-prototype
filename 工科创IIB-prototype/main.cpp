@@ -18,18 +18,19 @@ using namespace std;
 //注:窗口是全局变量，无论在哪个文件中调用窗口的名字都是对同一个窗口进行操作
 
 extern int fd;
-
+extern char dev1[];
+extern char dev2[];
 
 
 int main() {
     
 // connecting car
     int ret;
-    fd = UART_Open(fd,dev2);
+    fd = UART_Open(fd,dev1);
     ret = UART_Init(fd,115200,0,8,1,'N');
 
     while (fd == FALSE) {
-        fd = UART_Open(fd,dev2);
+        fd = UART_Open(fd,dev1);
         ret = UART_Init(fd,115200,0,8,1,'N');
     }
     stop(fd);
@@ -48,7 +49,7 @@ int main() {
     while (1) {
         windowImage = cvQueryFrame(cam);
         if (cvWaitKey(50) == '\r') {
-
+            windowImage = cvLoadImage("/Users/apollo/Desktop/屏幕快照 2015-12-09 下午1.40.09.png");
             cvShowImage("monitor", windowImage);
             break;
         }

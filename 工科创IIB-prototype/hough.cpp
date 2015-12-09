@@ -14,9 +14,9 @@ extern IplImage * binGrayImage;
 extern IplImage * windowImage;
 
 
-int threshold = 56;
-int minLength = 33;
-int maxDistance = 59;
+int threshold = 22;
+int minLength = 45;
+int maxDistance = 70;
 CvSeq* lines;
 carSeq path;
 int numberOfPathPoints = 0;
@@ -41,21 +41,11 @@ void checkParameter() {
 
 void performHough() {
     checkParameter();
-//    threshold = 62
-//    minLength = 11
-//    maxDistance = 53
-//    
-//    threshold = 22
-//    minLength = 25
-//    maxDistance = 17
-//    
-//    threshold = 44
-//    minLength = 71
-//    maxDistance = 36
-//    
-//    threshold = 44
-//    minLength = 80
-//    maxDistance = 37
+
+    
+    
+    
+    
     
     lines = cvHoughLines2(srcImage, storage, CV_HOUGH_PROBABILISTIC, 1, CV_PI/180, threshold, minLength, maxDistance);
     tarImage = cvCloneImage(windowImage);
@@ -64,6 +54,12 @@ void performHough() {
     rect.height = 10;
     path.build(lines);
     print(path, tarImage);
+    
+    for(int i = 0; i < lines->total; i++) {
+        CvPoint* line = (CvPoint*) cvGetSeqElem(lines, i);
+        cvLine( tarImage, line[0], line[1], cvScalar(255));
+    }
+ 
     
 //    for (int i = 0 ; i < lines->total; ++i) {
 //        CvPoint * line = path.line[i];

@@ -199,12 +199,25 @@ void turnToNextPoint() {
         y1 = pointF.y-pointB.y;
         theta = (x1*x2+y1*y2)/sqrt((x1*x1+y1*y1)*(x2*x2+y2*y2));
     }
+    
+    stop(fd);
+    cvWaitKey(100);
+    int time;
+    getNewFrame();
+    locateCar();
+    x2 = path.line[path.currentIndex][path.currentEnd].x-pointM.x;
+    y2 = path.line[path.currentIndex][path.currentEnd].y-pointM.y;
+    x1 = pointF.x-pointB.x;
+    y1 = pointF.y-pointB.y;
+    theta = (x1*x2+y1*y2)/sqrt((x1*x1+y1*y1)*(x2*x2+y2*y2));
+    time = acos(theta)*180/M_PI*16;
+    //4.4s
     if (flag) {
         turnleft(fd);
     } else {
         turnright(fd);
     }
-    cvWaitKey(70);
+    cvWaitKey(time);
     
     printf("cos = %f",acos(theta)*180/M_PI);
 //    (fd);

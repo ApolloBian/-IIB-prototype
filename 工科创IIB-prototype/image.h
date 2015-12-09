@@ -28,7 +28,7 @@ bool sameLine(CvPoint * line1 , CvPoint * line2);
 double length(CvPoint & p1 , CvPoint & p2 );
 double length(CvPoint * l1);
 double distance(CvPoint & p1 , CvPoint * l1);
-
+double distance(CvPoint & p1 , CvPoint & l1 , CvPoint & l2);
 
 
 template <class T>

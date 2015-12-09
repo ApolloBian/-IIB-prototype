@@ -33,7 +33,7 @@ extern int fd;
 
 
 //double COS  = cos(M_PI/90);
-int _distance = 80;
+int _distance = 30;
 
 int vmin = 50;
 int vmax = 256;
@@ -231,9 +231,27 @@ void turnToNextPoint() {
 int gotoNextPoint() {
     printf("go");
     go(fd);
-    while (true) {
+
+    double x1 = pointF.x-pointB.x;
+    double y1 = pointF.y-pointB.y;
+    double x2 = 1;
+    double y2 = 1;
+    double theta = -1;
+    x2 = path.line[path.currentIndex][path.currentEnd].x-pointM.x;
+    y2 = path.line[path.currentIndex][path.currentEnd].y-pointM.y;
+    theta = x1*x2+y1*y2;
+
+    
+    while (theta > 0) {
         getNewFrame();
         locateCar();
+        x2 = path.line[path.currentIndex][path.currentEnd].x-pointM.x;
+        y2 = path.line[path.currentIndex][path.currentEnd].y-pointM.y;
+        x1 = pointF.x-pointB.x;
+        y1 = pointF.y-pointB.y;
+        theta = x1*x2+y1*y2;
+
+        
         print(path, monitorImage);
         cvShowImage(monitor, monitorImage);
         
@@ -247,7 +265,10 @@ int gotoNextPoint() {
             return refreshPathStatus();
         }
     }
-    return 0;
+    
+    path.lineStatus[path.currentIndex][path.currentEnd] = true;
+    
+    return refreshPathStatus();
 }
 
 
@@ -258,6 +279,7 @@ void gotoEntrance() {
     getNewFrame();
     locateCar();
     refreshPathStatus();
+    _distance = 30;
     if (path.lineStatus[path.entranceIndex][path.entranceEnd]) {
         path.currentEnd = !path.currentEnd;
         gotoNextPoint();
@@ -269,6 +291,7 @@ void gotoEntrance() {
     gotoNextPoint();
     path.reset();
     path.currentEnd = !path.currentEnd;
+    turnToNextPoint();
 }
 
 
@@ -307,7 +330,7 @@ void controlling(int fd) {
         }
     }
     cvWaitKey(1000);
-
+    _distance = 80;
     while (true) {
         gotoEntrance();
         while (gotoNextPoint()!=-1) {

@@ -24,6 +24,15 @@ double distance(CvPoint & p1 , CvPoint * l1) {
     return sqrt(x1*x1+y1*y1-l*l);
 }
 
+double distance(CvPoint & p1 , CvPoint & l1 , CvPoint & l2) {
+    double x1 = p1.x-l1.x;
+    double y1 = p1.y-l1.y;
+    double x2 = l2.x-l1.x;
+    double y2 = l2.y-l1.y;
+    double l = (x1*x2+y1*y2)/length(l1, l2);
+    return sqrt(x1*x1+y1*y1-l*l);
+}
+
 
 struct index {
     int a;

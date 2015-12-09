@@ -32,7 +32,7 @@ extern int fd;
 
 
 
-double COS  = cos(M_PI/90);
+//double COS  = cos(M_PI/90);
 int _distance = 80;
 
 int vmin = 50;
@@ -179,14 +179,16 @@ void turnToNextPoint() {
     x2 = path.line[path.currentIndex][path.currentEnd].x-pointM.x;
     y2 = path.line[path.currentIndex][path.currentEnd].y-pointM.y;
     theta = (x1*x2+y1*y2)/sqrt((x1*x1+y1*y1)*(x2*x2+y2*y2));
-    
-    if (y1*x2-y2*x1 > 0) {
+    bool flag = false;
+    if (y1*x2-y2*x1 < 0) {
         turnright(fd);
+        flag = true;
     } else {
         turnleft(fd);
     }
-    
-    while (theta <= COS) {
+    double COS = -1;
+    while (theta<cos(M_PI/18)||theta >= COS) {
+        COS = theta;
         getNewFrame();
         locateCar();
         print(path, monitorImage);
@@ -197,9 +199,15 @@ void turnToNextPoint() {
         y1 = pointF.y-pointB.y;
         theta = (x1*x2+y1*y2)/sqrt((x1*x1+y1*y1)*(x2*x2+y2*y2));
     }
-    printf("cos = %f",theta);
+    if (flag) {
+        turnleft(fd);
+    } else {
+        turnright(fd);
+    }
+    cvWaitKey(70);
     
-    stop(fd);
+    printf("cos = %f",acos(theta)*180/M_PI);
+//    (fd);
     //
 //    go(fd);
     //
@@ -234,6 +242,16 @@ int gotoNextPoint() {
 
 void gotoEntrance() {
     path.reset();
+    getNewFrame();
+    locateCar();
+    refreshPathStatus();
+    if (path.lineStatus[path.entranceIndex][path.entranceEnd]) {
+        path.currentEnd = !path.currentEnd;
+        gotoNextPoint();
+        turnToNextPoint();
+        return;
+    }
+    
     turnToNextPoint();
     gotoNextPoint();
     path.reset();

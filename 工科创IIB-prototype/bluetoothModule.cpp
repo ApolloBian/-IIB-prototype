@@ -231,11 +231,13 @@ int UART_Init(int fd, int speed,int flow_ctrlint ,int databits,int stopbits,char
 void go(int fd) {
     printf("go\n");
     write(fd,"4",1);
+//    write(fd,"4",1);
 }
 
 void stop(int fd) {
     printf("stop\n");
     write(fd,"5",1);
+//    write(fd,"5",1);
 
 }
 
@@ -243,12 +245,14 @@ void stop(int fd) {
 void turnleft(int fd) {
     printf("left\n");
     write(fd,"8",1);
+//    write(fd,"8",1);
     
 }
 
 void turnright(int fd) {
     printf("right\n");
     write(fd, "2", 1);
+//    write(fd, "2", 1);
 
 }
 

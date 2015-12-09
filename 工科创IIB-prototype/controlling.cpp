@@ -32,7 +32,7 @@ extern int fd;
 
 
 
-double COS  = cos(M_PI/60);
+double COS  = cos(M_PI/90);
 int _distance = 80;
 
 int vmin = 50;
@@ -198,7 +198,11 @@ void turnToNextPoint() {
         theta = (x1*x2+y1*y2)/sqrt((x1*x1+y1*y1)*(x2*x2+y2*y2));
     }
     printf("cos = %f",theta);
+    
     stop(fd);
+    //
+//    go(fd);
+    //
     getNewFrame();
     locateCar();
 }
@@ -213,7 +217,8 @@ int gotoNextPoint() {
         cvShowImage(monitor, monitorImage);
         
         // debug
-            
+//        turnToNextPoint();
+        
         //
         
         

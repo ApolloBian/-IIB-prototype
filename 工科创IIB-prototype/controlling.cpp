@@ -91,7 +91,7 @@ void locateCar() {                                                              
 int refreshPathStatus() {
     static double distanceToTarget = 1000000;
     double dist = distance(pointM, path.line[path.currentIndex][path.currentEnd]);
-    if (dist < distanceToTarget) {
+    if (dist <= distanceToTarget+2) {
         distanceToTarget = dist;
         return 0;
     }
@@ -123,6 +123,8 @@ void turnToNextPoint() {
     getNewFrame();
     locateCar();
     print(path, monitorImage);
+    cvShowImage(monitor, monitorImage);
+
     double x1 = pointF.x-pointB.x;
     double y1 = pointF.y-pointB.y;
     double x2 = path.line[path.currentIndex][path.currentEnd].x-pointM.x;
@@ -130,7 +132,7 @@ void turnToNextPoint() {
     double theta = (x1*x2+y1*y2)/sqrt((x1*x1+y1*y1)*(x2*x2+y2*y2));
     double degree = acos(theta)*180/M_PI;
     do {
-        double time = degree*16;
+        double time = degree*14;
         if (y1*x2-y2*x1 < 0) {
             turnright(fd);
         } else {
@@ -142,13 +144,14 @@ void turnToNextPoint() {
         getNewFrame();
         locateCar();
         print(path, monitorImage);
+        cvShowImage(monitor, monitorImage);
         x1 = pointF.x-pointB.x;
         y1 = pointF.y-pointB.y;
         x2 = path.line[path.currentIndex][path.currentEnd].x-pointM.x;
         y2 = path.line[path.currentIndex][path.currentEnd].y-pointM.y;
         theta = (x1*x2+y1*y2)/sqrt((x1*x1+y1*y1)*(x2*x2+y2*y2));
         degree = acos(theta)*180/M_PI;
-    } while (degree > 10);
+    } while (degree > 5);
     stop(fd);
 }
 
@@ -158,11 +161,15 @@ int gotoNextPoint() {
     getNewFrame();
     locateCar();
     print(path, monitorImage);
+    cvShowImage(monitor, monitorImage);
+
     int status = refreshPathStatus();
     while (status==0) {
         getNewFrame();
         locateCar();
         print(path, monitorImage);
+        cvShowImage(monitor, monitorImage);
+
         status = refreshPathStatus();
         if (cvWaitKey(1) == '\r') {
             stop(fd);
@@ -199,13 +206,15 @@ void controlling(int fd) {
     while (true) {
         getNewFrame();
         locateCar();
-        refreshPathStatus();
         print(path, monitorImage);
         cvShowImage(monitor, monitorImage);
         if (cvWaitKey(33) == '\r') {
             break; 
         }
     }
+    path.currentEnd = 1;
+    path.currentIndex = 0;
+    path.lineStatus[0][0] = true;
     
 //开始
     turnToNextPoint();

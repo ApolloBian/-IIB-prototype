@@ -41,22 +41,32 @@ void checkParameter() {
 
 void performHough() {
     checkParameter();
-
-    
     lines = cvHoughLines2(srcImage, storage, CV_HOUGH_PROBABILISTIC, 1, CV_PI/180, threshold, minLength, maxDistance);
     tarImage = cvCloneImage(windowImage);
-    CvRect rect;
-    rect.width = 10;
-    rect.height = 10;
+//    CvRect rect;
+//    rect.width = 10;
+//    rect.height = 10;
     path.build(lines);
     print(path, tarImage);
     
-    for(int i = 0; i < lines->total; i++) {
-        CvPoint* line = (CvPoint*) cvGetSeqElem(lines, i);
-        cvLine( tarImage, line[0], line[1], cvScalar(255));
-    }
- 
     
+    //        rect.x = line[0].x-5;
+    //        rect.y = line[0].y-5;
+    //        cvRectangleR(tarImage,rect, CV_RGB(255,0,0),3,CV_AA,0);
+    //        rect.x = line[1].x-5;
+    //        rect.y = line[1].y-5;
+    //        cvRectangleR(tarImage,rect, CV_RGB(255,0,0),3,CV_AA,0);
+    //    for(int i = 0; i < lines->total; i++) {
+    //        CvPoint* line = (CvPoint*) cvGetSeqElem(lines, i);
+    //        cvLine( tarImage, line[0], line[1], cvScalar(255));
+    //        rect.x = line[0].x-5;
+    //        rect.y = line[0].y-5;
+    //        cvRectangleR(tarImage,rect, CV_RGB(255,0,0),3,CV_AA,0);
+    //        rect.x = line[1].x-5;
+    //        rect.y = line[1].y-5;
+    //        cvRectangleR(tarImage,rect, CV_RGB(255,0,0),3,CV_AA,0);
+    //    }
+    //    cvWaitKey(0);
 //    for (int i = 0 ; i < lines->total; ++i) {
 //        CvPoint * line = path.line[i];
 //        rect.x = line[0].x-5;

@@ -10,7 +10,7 @@
 
 
 int binThreshold;
-int binIterations;
+int binIterations = 49;
 int houghThreshold;
 int houghDistance;
 //int binErode;

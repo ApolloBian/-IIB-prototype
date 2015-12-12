@@ -77,28 +77,27 @@ void getNewFrame() {                                                            
     cvWarpPerspective(cameraImage, monitorImage, transmat);
 }
 
-void locateCar() {                                                                  //追踪小车，更新图像,更新小车的位置变量
+void locateCar() {                                                                                   //追踪小车，更新图像,更新小车的位置变量
     cvCvtColor(monitorImage, hsv, CV_RGB2HSV);
-    cvInRangeS(hsv,cvScalar(0,_smin,MIN(_vmin,_vmax),0),cvScalar(180,256,MAX(_vmin,_vmax),0),mask);                                                               //制作掩膜板，只处理像素值为H：0~180，S：smin~256，V：vmin~vmax之间的部分
+    cvInRangeS(hsv,cvScalar(0,_smin,MIN(_vmin,_vmax),0),cvScalar(180,256,MAX(_vmin,_vmax),0),mask);  //制作掩膜板，只处理像素值为H：0~180，S：smin~256，V：vmin~vmax之间的部分
     cvSplit( hsv, hue, 0, 0, 0 );//分离H分量
     
-    
     cvCalcBackProject(&hue, backprojectF , carFrontHistogram);
-    cvShowImage("parameter", backprojectF);
-
     cvAnd(backprojectF, mask, backprojectF,0);
     cvCamShift( backprojectF, track_windowF,cvTermCriteria( CV_TERMCRIT_EPS | CV_TERMCRIT_ITER, 10, 1 ),&track_compF, &track_boxF );
     track_windowF = track_compF.rect;
-    cvRectangleR(monitorImage,track_windowF, CV_RGB(0,0,255),3,CV_AA,0);
 
     cvCalcBackProject(&hue, backprojectB, carBackHistogram);
     cvAnd(backprojectB, mask, backprojectB,0);
     cvCamShift( backprojectB, track_windowB,cvTermCriteria( CV_TERMCRIT_EPS | CV_TERMCRIT_ITER, 10, 1 ),&track_compB, &track_boxB );
     track_windowB = track_compB.rect;
-    cvRectangleR(monitorImage,track_windowB, CV_RGB(0,255,0),3,CV_AA,0);
     
     
     
+
+    
+    
+    cvShowImage("parameter", backprojectF);
     pointB.x = track_windowB.x+track_windowB.width/2;
     pointB.y = track_windowB.y+track_windowB.height/2;
     
@@ -109,64 +108,71 @@ void locateCar() {                                                              
     pointM.y = (pointF.y + pointB.y)/2;
     
 //    cvRectangleR(monitorImage,track_windowB, CV_RGB(255,0,0),3,CV_AA,0);
-    CvRect rect;
-    rect.width = rect.height = 10;
+    CvRect rect,rectB,rectF;
+    rect.width = rect.height = rectB.width = rectB.height = rectF.width = rectF.height = 10;
     rect.x = pointM.x-5;
     rect.y = pointM.y-5;
+    rectB.x = pointB.x-5;
+    rectB.y = pointB.y-5;
+    rectF.x = pointF.x-5;
+    rectF.y = pointF.y-5;
+    
+    
+//    cvRectangleR(monitorImage,track_windowF, CV_RGB(0,0,255),3,CV_AA,0);
+//    cvRectangleR(monitorImage,track_windowB, CV_RGB(0,255,0),3,CV_AA,0);
     cvRectangleR(monitorImage,rect, CV_RGB(255,255,255),3,CV_AA,0);
-    
-    
+    cvRectangleR(monitorImage,rectB, CV_RGB(0,255,0),3,CV_AA,0);
+    cvRectangleR(monitorImage,rectF, CV_RGB(0,0,255),3,CV_AA,0);
     cvLine(monitorImage, pointB, pointF ,CV_RGB(255,0,0),1,CV_AA,0);
     
 //    printf("(%d,%d)",pointM.x,pointM.y);
-    
-    
-   
 }
 
 
-int refreshPathStatus(){
-    for (int i = 0 ; i < path.numberOfLines; ++i) {
-        for (int j = 0 ; j < 2 ; ++j) {
-            if (path.lineStatus[i][j]) {
-                continue;
-            }
-            if (length(pointM, path.line[i][j]) < _distance) {
-                path.lineStatus[i][j] = true;
-            }
-        }
-    }
-    if (path.lineStatus[path.currentIndex][path.currentEnd]) {
-        double minTurn = -1;
-        double curTurn = 0;
-        double x1 = pointF.x-pointB.x;
-        double y1 = pointF.y-pointB.y;
-        double x2 = 1;
-        double y2 = 1;
-        bool flag = false;
-        for (int i = 0 ; i < path.numberOfLines; ++i) {
-            for (int j = 0 ; j < 2 ; ++j) {
-                if (path.lineStatus[i][j]) {
-                    continue;
-                }
-                x2 = path.line[i][j].x-pointM.x;
-                y2 = path.line[i][j].y-pointM.y;
-                curTurn = (x1*x2+y1*y2)/sqrt((x1*x1+y1*y1)*(x2*x2+y2*y2));
-                if (curTurn > minTurn) {
-                    flag = true;
-                    minTurn = curTurn;
-                    path.currentIndex = i;
-                    path.currentEnd = j;
-                }
-            }
-        }
-        if (!flag) {
-            return -1;
-        }
-        return 1;
-    }
-    return 0;
-}
+
+
+//int refreshPathStatus(){
+//    for (int i = 0 ; i < path.numberOfLines; ++i) {
+//        for (int j = 0 ; j < 2 ; ++j) {
+//            if (path.lineStatus[i][j]) {
+//                continue;
+//            }
+//            if (distance(pointM, path.line[i][j]) < _distance) {
+//                path.lineStatus[i][j] = true;
+//            }
+//        }
+//    }
+//    if (path.lineStatus[path.currentIndex][path.currentEnd]) {
+//        double minTurn = -1;
+//        double curTurn = 0;
+//        double x1 = pointF.x-pointB.x;
+//        double y1 = pointF.y-pointB.y;
+//        double x2 = 1;
+//        double y2 = 1;
+//        bool flag = false;
+//        for (int i = 0 ; i < path.numberOfLines; ++i) {
+//            for (int j = 0 ; j < 2 ; ++j) {
+//                if (path.lineStatus[i][j]) {
+//                    continue;
+//                }
+//                x2 = path.line[i][j].x-pointM.x;
+//                y2 = path.line[i][j].y-pointM.y;
+//                curTurn = (x1*x2+y1*y2)/sqrt((x1*x1+y1*y1)*(x2*x2+y2*y2));
+//                if (curTurn > minTurn) {
+//                    flag = true;
+//                    minTurn = curTurn;
+//                    path.currentIndex = i;
+//                    path.currentEnd = j;
+//                }
+//            }
+//        }
+//        if (!flag) {
+//            return -1;
+//        }
+//        return 1;
+//    }
+//    return 0;
+//}
 
 
 void turnToNextPoint() {

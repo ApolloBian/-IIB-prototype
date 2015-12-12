@@ -53,28 +53,26 @@ void print(carSeq & path, IplImage * tarImage) {
             CvPoint * line = path.line[i];
             rect.x = line[j].x-5;
             rect.y = line[j].y-5;
-            cvRectangleR(tarImage,rect, color[j],3,CV_AA,0);
-
-            //            cvRectangleR(tarImage,rect, color[path.lineStatus[i][j]],3,CV_AA,0);
+            cvRectangleR(tarImage,rect, color[path.lineStatus[i][j]],3,CV_AA,0);
+//            cvRectangleR(tarImage,rect, color[path.lineStatus[i][j]],3,CV_AA,0);
 //            cvRectangleR(tarImage, rect, CV_RGB(20*i, 255-20*i, 0),3,CV_AA,0);
         }
     }
+
+    
     for (int i = 0 ; i < path.numberOfLines-1; ++i) {
         cvLine(tarImage, path.line[i][1], path.line[i+1][0], cvScalar(255));
     }
-    
     for(int i = 0; i < path.numberOfLines; i++) {
         CvPoint* line = path.line[i];
         cvLine( tarImage, line[0], line[1], cvScalar(255));
     }
     
-    
     CvPoint * line;
-    
     line = path.line[path.currentIndex];
     rect.x = line[path.currentEnd].x-5;
     rect.y = line[path.currentEnd].y-5;
-//    cvRectangleR(tarImage,rect, CV_RGB(255,255,255),3,CV_AA,0);
+    cvRectangleR(tarImage,rect, CV_RGB(255,255,255),3,CV_AA,0);
 }
 
 

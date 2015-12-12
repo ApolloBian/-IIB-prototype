@@ -160,6 +160,8 @@ double minEndDistance(CvPoint * line1 , CvPoint * line2) {
 
 
 void carSeq::build(CvSeq * lines) {
+    int entranceIndex , entranceEnd;
+    entranceIndex = entranceEnd = 0;
     int maxSum = 0;
     numberOfLines = lines->total;
     printf("num of ls before build: %d \n",numberOfLines);
@@ -218,7 +220,7 @@ void carSeq::reset() {
     for (int i = 0 ; i < 100 ; ++i) {
         lineStatus[i][0] = lineStatus[i][1] = false;
     }
-    currentEnd = entranceEnd;
-    currentIndex = entranceIndex;
+    currentEnd = 0;
+    currentIndex = 0;
 }
 

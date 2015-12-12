@@ -53,8 +53,8 @@ double distance(CvPoint & p1 , CvPoint & l1 , CvPoint & l2);
 struct carSeq {
     int currentIndex;
     int currentEnd;
-    int entranceIndex;
-    int entranceEnd; // 0/1
+//    int entranceIndex;
+//    int entranceEnd; // 0/1
     int numberOfLines;
 
     CvPoint * line [100];

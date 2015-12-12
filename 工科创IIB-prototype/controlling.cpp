@@ -129,7 +129,33 @@ void locateCar() {                                                              
 }
 
 
-
+int refreshPathStatus() {
+    static double distanceToTarget = 1000000;
+    double dist = distance(pointM, path.line[path.currentIndex][path.currentEnd]);
+    if (dist < distanceToTarget) {
+        distanceToTarget = dist;
+        return 0;
+    }
+    distanceToTarget = 1000000;
+    if ((path.currentIndex == path.numberOfLines-1)&&path.currentEnd) {
+        path.reset();
+        return -1;
+    }
+    path.lineStatus[path.currentIndex][path.currentEnd] = true;
+    if (path.currentEnd == 1) {
+        path.currentEnd = 0;
+        if (distance(path.line[path.currentIndex][1], path.line[path.currentIndex+1][0]) < _distance) {
+            path.lineStatus[path.currentIndex+1][0] = true;
+            path.currentEnd = 1;
+        }
+        ++path.currentIndex;
+    } else {
+        path.lineStatus[path.currentIndex][0] = true;
+        path.currentEnd = 1;
+    }
+    
+    return 0;
+}
 
 //int refreshPathStatus(){
 //    for (int i = 0 ; i < path.numberOfLines; ++i) {

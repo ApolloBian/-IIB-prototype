@@ -132,15 +132,15 @@ void turnToNextPoint() {
     double theta = (x1*x2+y1*y2)/sqrt((x1*x1+y1*y1)*(x2*x2+y2*y2));
     double degree = acos(theta)*180/M_PI;
     do {
-        double time = degree*14;
+//        double time = degree*14;
         if (y1*x2-y2*x1 < 0) {
             turnright(fd);
         } else {
             turnleft(fd);
         }
-        cvWaitKey(time);
-        stop(fd);
-        cvWaitKey(stoptime);
+        cvWaitKey(13);
+//        stop(fd);
+//        cvWaitKey(stoptime);
         getNewFrame();
         locateCar();
         print(path, monitorImage);
@@ -151,7 +151,8 @@ void turnToNextPoint() {
         y2 = path.line[path.currentIndex][path.currentEnd].y-pointM.y;
         theta = (x1*x2+y1*y2)/sqrt((x1*x1+y1*y1)*(x2*x2+y2*y2));
         degree = acos(theta)*180/M_PI;
-    } while (degree > 5);
+    } while (degree > 3);
+    std::cout<<degree<<std::endl;
     stop(fd);
 }
 

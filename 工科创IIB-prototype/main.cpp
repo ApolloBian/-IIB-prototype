@@ -27,15 +27,15 @@ int main() {
 // connecting car
     
     
-//    int ret;
-//    fd = UART_Open(fd,dev2);
-//    ret = UART_Init(fd,115200,0,8,1,'N');
-//
-//    while (fd == -1) {
-//        fd = UART_Open(fd,dev2);
-//        ret = UART_Init(fd,115200,0,8,1,'N');
-//    }
-//    stop(fd);
+    int ret;
+    fd = UART_Open(fd,dev2);
+    ret = UART_Init(fd,115200,0,8,1,'N');
+
+    while (fd == -1) {
+        fd = UART_Open(fd,dev2);
+        ret = UART_Init(fd,115200,0,8,1,'N');
+    }
+    stop(fd);
     
     
     
@@ -43,7 +43,7 @@ int main() {
     extern IplImage * windowImage;
     extern IplImage * processImage;
     CvCapture * cam;
-    cam = cvCreateCameraCapture(1);
+    cam = cvCreateCameraCapture(0);
     cvNamedWindow("monitor");
     if (!cam) {
         return -1;

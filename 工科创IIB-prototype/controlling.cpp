@@ -34,7 +34,7 @@ CvHistogram* carBackHistogram;
 
 
 //本地变量
-CvCapture * cam = cvCreateCameraCapture(1);
+CvCapture * cam = cvCreateCameraCapture(0);
 IplImage * cameraImage;
 IplImage * monitorImage = cvCreateImage(cvSize(squareWindowSize, squareWindowSize), IPL_DEPTH_8U, 3);
 IplImage * hsv , * hue , * mask , * backprojectF, *backprojectB;

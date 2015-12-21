@@ -51,8 +51,10 @@ void bin() {
 void thin() {
     cvNamedWindow("thin");
     cvMoveWindow("thin", middlewindowX, middlewindowY);
-    cvShowImage("thin", binBinaryImage);
-    cvCreateTrackbar("iterations", "thin", &binIterations, 50, thin);
+//    cvShowImage("thin", binBinaryImage);
+//    cvCreateTrackbar("iterations", "thin", &binIterations, 50, thin);
+    cvThin(binBinaryImage, binGrayImage,400);
+    cvShowImage("thin", binGrayImage);
     cvWaitKey(0);
     cvDestroyWindow("thin");
 }
@@ -88,16 +90,6 @@ void cvThin(IplImage * src, IplImage * dst , int iterations ) {
                         int d[8][2] = {{-1,0},{-1,-1},{0,-1},{1,-1},{1,0},{1,1},{0,1},{-1,1}};
                         int p[8];
                         p[0] = (i==0)?0:t_dat[i-1][j];
-                        //                        for (int k = 0 ; k < 9 ; ++k) {
-                        //                            if (i+d[k][0] < 0 || i+d[k][0]>=src->height||j+d[k][1] < 0 || j+d[k][1]>=src->height) p[k]=0;
-                        //                            else p[k]= t_dat[i+d[k][0]][j+d[k][1]];
-                        //                            if (p[k]) {
-                        //                                ++b;
-                        //                                if (!p[k-1]) {
-                        //                                    ++a;
-                        //                                }
-                        //                            }
-                        //                        }
                         for (int k = 1; k <= 8; k++) {
                             if (i+d[k%8][0] < 0 || i+d[k%8][0] >= src->height || j+d[k%8][1] < 0 || j+d[k%8][1] >= src->width) p[k%8] = 0;
                             else p[k%8] = t_dat[ i+d[k%8][0] ][ j+d[k%8][1] ];

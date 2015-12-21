@@ -89,28 +89,26 @@ void showParameters() {
     std::cerr<<"maxDistance = "<<maxDistance<<std::endl;
 }
 
-
-
-void houghChangeThreshold(int pos) {
-    threshold = pos;
+void houghFunction() {
     showParameters();
     performHough();
     cvShowImage("hough", tarImage);
+}
+
+void houghChangeThreshold(int pos) {
+    threshold = pos;
+    houghFunction();
 }
 
 
 void houghChangeMinLength(int pos) {
     minLength = pos;
-    showParameters();
-    performHough();
-    cvShowImage("hough", tarImage);
+    houghFunction();
 }
 
 void houghChangeMaxDistance(int pos) {
     maxDistance = pos;
-    showParameters();
-    performHough();
-    cvShowImage("hough", tarImage);
+    houghFunction();
 }
 
 void hough() {
@@ -121,6 +119,7 @@ void hough() {
 //    tarImage = cvCreateImage(cvGetSize(srcImage), IPL_DEPTH_8U, 3);
     tarImage = cvCloneImage(windowImage);
     cvShowImage("hough", tarImage);
+    houghFunction();
     cvCreateTrackbar("threshold", "hough", &threshold, 100,houghChangeThreshold);
     cvCreateTrackbar("minLength", "hough", &minLength, 100,houghChangeMinLength);
     cvCreateTrackbar("maxDistance", "hough", &maxDistance, 100,houghChangeMaxDistance);

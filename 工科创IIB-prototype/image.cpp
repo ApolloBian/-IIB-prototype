@@ -20,6 +20,9 @@ int det(int a , int b , int c , int d) {
 }
 
 double distance(CvPoint & p1 , CvPoint & p2) {
+    if (&p2 < (CvPoint *)30 ) {
+        return 100000000;
+    }
     return sqrt((p1.x-p2.x)*(p1.x-p2.x)+(p1.y-p2.y)*(p1.y-p2.y));
 }
 double length(CvPoint * l1) {
@@ -206,6 +209,7 @@ void carSeq::build(CvSeq * lines) {
         setJoint(line[pos], line[pos+1]);
         ++pos;
     }
+    reverseLine(line[numberOfLines-1]);
     printf("number Of Lines = %d \n",numberOfLines);
     currentEnd = 0;
     currentIndex = 0;

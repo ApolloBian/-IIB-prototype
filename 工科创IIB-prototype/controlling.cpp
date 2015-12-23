@@ -14,7 +14,7 @@ extern int fd;
 
 
 
-int _distance = 30;
+int _distance = 40;
 int vmin = 50;
 int vmax = 256;
 int smin = 80;
@@ -94,15 +94,20 @@ void locateCar() {                                                              
 int refreshPathStatus() {
     static double distanceToTarget = 1000000;
     double dist = distance(pointM, path.line[path.currentIndex][path.currentEnd]);
-    if (dist <= distanceToTarget+3) {
+    if (dist <= distanceToTarget+1) {
         distanceToTarget = dist;
         return 0;
     }
     distanceToTarget = 1000000;
     if ((path.currentIndex == path.numberOfLines-1)&&path.currentEnd) {
         path.reset();
-        return -1;
+        return -2;
     }
+   //_________
+    if (dist > 50) {
+        return 1;
+    }
+    //________
     path.lineStatus[path.currentIndex][path.currentEnd] = true;
     if (path.currentEnd == 1) {
         path.currentEnd = 0;
@@ -148,40 +153,6 @@ void flushInfomation() {
 //}
 
 
-void turnLeftDegree(int degree) {
-    int times = (degree+11)/22;
-
-    for (int i = 0 ; i < times; ++i) {
-        turnleft(fd);
-        int j;
-        for (j = 0 ; j < movingFrames; ++j) {
-            flushInfomation();
-        }
-        stop(fd);
-        for (j = 0 ; j < staticFrames; ++j) {
-            flushInfomation();
-        }
-    }
-    
-}
-
-void turnRightDegree(int degree) {
-    int times = (degree+11)/22;
-    for (int i = 0 ; i < times; ++i) {
-        turnright(fd);
-        int j;
-        for (j = 0 ; j < movingFrames; ++j) {
-            flushInfomation();
-        }
-        stop(fd);
-        for (j = 0 ; j < staticFrames; ++j) {
-            flushInfomation();
-        }
-    }
-
-}
-
-
 double calculateDegree() {
     double x1 = pointF.x-pointB.x;
     double y1 = pointF.y-pointB.y;
@@ -196,6 +167,89 @@ double calculateDegree() {
     }
 }
 
+// originallt *6
+int multratio = 9;
+void turnLeftDegree(int degree) {
+    if (degree > 70) {
+        turnLeftDegree(45);
+        turnLeftDegree(degree-45);
+    }
+    
+    int times = degree*multratio/45;
+    turnleft(fd);
+    for (int i = 0 ; i < times ; ++i) {
+        flushInfomation();
+        calculateDegree();
+        if (degree < 3 && degree > -3) {
+            break;
+        }
+    }
+    stop(fd);
+    for (int i = 0 ; i < 10 ; ++i) {
+        flushInfomation();
+    }
+
+
+}
+
+void turnRightDegree(int degree) {
+    if (degree > 70 ) {
+        turnRightDegree(45);
+        turnRightDegree(degree-45);
+    }
+    
+    int times = degree*multratio/45;
+    turnright(fd);
+    for (int i = 0 ; i < times ; ++i) {
+        flushInfomation();
+        calculateDegree();
+        if (degree < 3 && degree > -3) {
+            break;
+        }
+    }
+    stop(fd);
+    for (int i = 0 ; i < 10 ; ++i) {
+        flushInfomation();
+    }
+}
+
+
+//void turnLeftDegree(int degree) {
+//    int times = (degree+11)/22;
+//
+//    for (int i = 0 ; i < times; ++i) {
+//        turnleft(fd);
+//        int j;
+//        for (j = 0 ; j < movingFrames; ++j) {
+//            flushInfomation();
+//        }
+//        stop(fd);
+//        for (j = 0 ; j < staticFrames; ++j) {
+//            flushInfomation();
+//        }
+//    }
+//    
+//}
+//
+//void turnRightDegree(int degree) {
+//    int times = (degree+11)/22;
+//    for (int i = 0 ; i < times; ++i) {
+//        turnright(fd);
+//        int j;
+//        for (j = 0 ; j < movingFrames; ++j) {
+//            flushInfomation();
+//        }
+//        stop(fd);
+//        for (j = 0 ; j < staticFrames; ++j) {
+//            flushInfomation();
+//        }
+//    }
+//
+//}
+
+
+
+
 void turnToNextPoint() {
     int stoptime = 100;
     printf("turn");
@@ -207,11 +261,15 @@ void turnToNextPoint() {
     cvShowImage(monitor, monitorImage);
 
     double degree = calculateDegree();
+    int count = 0;
     do {
+        ++count;
         if (degree < 0) turnRightDegree(-degree);
         else turnLeftDegree(degree);
         degree = calculateDegree();
-    } while (degree > 12);
+        
+    } while ((degree > 3 && count < 10)||(count > 10 && degree > 6));
+    
     stop(fd);
 }
 
@@ -231,10 +289,14 @@ int gotoNextPoint() {
         cvShowImage(monitor, monitorImage);
 
         status = refreshPathStatus();
-        if (cvWaitKey(1) == '\r') {
-            stop(fd);
-            return -1;
-        }
+//        if (cvWaitKey(1) == '\r') {
+//            stop(fd);
+//            return -1;
+//        }
+    }
+    if (status == -2) {
+        stop(fd);
+        return -1;
     }
     stop(fd);
     return 1;

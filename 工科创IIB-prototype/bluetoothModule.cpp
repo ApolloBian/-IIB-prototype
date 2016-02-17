@@ -257,47 +257,4 @@ void turnright(int fd) {
 }
 
 
-//bool turn15left(int fd) {
-//    char result[3];
-//    write(fd,"L",1);
-//    read(fd, result, 3);
-//    if (result[0] == 't'){
-//        return true;
-//    } else {
-//        return false;
-//    }
-//}
-
-//bool turn15right(int fd) {
-//    char result[3];
-//    write(fd,"R",1);
-//    read(fd, result, 3);
-//    if (result[0] == 't'){
-//        return true;
-//    } else {
-//        return false;
-//    }
-//    
-//}
-//bool turn2left(int fd){
-//    char result[3];
-//    write(fd,"l",1);
-//    read(fd, result, 3);
-//    if (result[0] == 't'){
-//        return true;
-//    } else {
-//        return false;
-//    }
-//}
-//bool turn2right(int fd){
-//    char result[3];
-//    write(fd,"r",1);
-//    read(fd, result, 3);
-//    if (result[0] == 't'){
-//        return true;
-//    } else {
-//        return false;
-//    }
-//}
-
 

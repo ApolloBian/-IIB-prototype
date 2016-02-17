@@ -9,7 +9,7 @@
 #include "binarization.h"
 
 
-int binThreshold;
+int binThreshold = 60;
 int binIterations = 49;
 int houghThreshold;
 int houghDistance;
@@ -33,7 +33,7 @@ void bin() {
     cvShowImage("bin", binGrayImage);
     //    cvShowImage("binary image", g_pGrayImage);
     // 创建二值图窗口
-    
+    binaryzation(binThreshold);
     // 滑动条
     cvCreateTrackbar("bin threshold", "bin", &binThreshold, 254, binaryzation);
     //处理结束

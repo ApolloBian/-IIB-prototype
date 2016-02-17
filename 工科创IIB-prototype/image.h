@@ -57,8 +57,8 @@ struct carSeq {
 //    int entranceEnd; // 0/1
     int numberOfLines;
 
-    CvPoint * line [100];
-    bool lineStatus[100][2];
+    CvPoint * line [50000];
+    bool lineStatus[50000][2];
     
     carSeq();
     void build(CvSeq * lines);

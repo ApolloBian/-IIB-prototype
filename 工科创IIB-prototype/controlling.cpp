@@ -34,7 +34,7 @@ CvHistogram* carBackHistogram;
 
 
 //本地变量
-CvCapture * cam = cvCreateCameraCapture(0);
+CvCapture * cam = cvCreateCameraCapture(1);
 IplImage * cameraImage;
 IplImage * monitorImage = cvCreateImage(cvSize(squareWindowSize, squareWindowSize), IPL_DEPTH_8U, 3);
 IplImage * hsv , * hue , * mask , * backprojectF, *backprojectB;
@@ -85,10 +85,7 @@ void locateCar() {                                                              
     cvRectangleR(monitorImage,rectB, CV_RGB(0,255,0),3,CV_AA,0);
     cvRectangleR(monitorImage,rectF, CV_RGB(0,0,255),3,CV_AA,0);
     cvLine(monitorImage, pointB, pointF ,CV_RGB(255,0,0),1,CV_AA,0);
-    //    cvRectangleR(monitorImage,track_windowB, CV_RGB(255,0,0),3,CV_AA,0);
-    //    cvShowImage("parameter", backprojectF);
-    //    cvRectangleR(monitorImage,track_windowF, CV_RGB(0,0,255),3,CV_AA,0);
-    //    cvRectangleR(monitorImage,track_windowB, CV_RGB(0,255,0),3,CV_AA,0);
+
 }
 
 int refreshPathStatus() {
@@ -100,7 +97,9 @@ int refreshPathStatus() {
     }
     distanceToTarget = 1000000;
     if ((path.currentIndex == path.numberOfLines-1)&&path.currentEnd) {
-        path.reset();
+//        if (path.lineStatus[path.currentIndex][0]&&path.lineStatus[path.currentIndex][1]) {
+//            return -2;
+//        }
         return -2;
     }
    //_________
@@ -131,26 +130,6 @@ void flushInfomation() {
 }//45 ms in vague average
 //22.5度大约刷新4帧
 
-//void customWait(int time) {
-//    static const double timeConstant = 22.5*8.5;
-//    int frames = 4;
-//    int frames = time/timeConstant;
-//    if (frames < 2) {
-//        getNewFrame();
-//        locateCar();
-//        print(path, monitorImage);
-//        cvShowImage(monitor, monitorImage);
-//        cvWaitKey(time);
-//    } else {
-//        for (int i = 0 ; i < frames ; ++i) {
-//            getNewFrame();
-//            locateCar();
-//            print(path, monitorImage);
-//            cvShowImage(monitor, monitorImage);
-//            cvWaitKey(timeConstant);
-//        }
-//    }
-//}
 
 
 double calculateDegree() {
@@ -168,91 +147,60 @@ double calculateDegree() {
 }
 
 // originallt *6
-int multratio = 9;
+int multratio = 11;
 void turnLeftDegree(int degree) {
-    if (degree > 70) {
-        turnLeftDegree(45);
-        turnLeftDegree(degree-45);
-    }
+//    if (degree > 70) {
+//        turnLeftDegree(45);
+//        turnLeftDegree(degree-45);
+//    }
     
     int times = degree*multratio/45;
     turnleft(fd);
     for (int i = 0 ; i < times ; ++i) {
         flushInfomation();
         calculateDegree();
-        if (degree < 3 && degree > -3) {
+        if (degree < 6 && degree > -6) {
             break;
         }
     }
     stop(fd);
-    for (int i = 0 ; i < 10 ; ++i) {
+    for (int i = 0 ; i < 3 ; ++i) {
         flushInfomation();
     }
+    calculateDegree();
 
 
 }
 
 void turnRightDegree(int degree) {
-    if (degree > 70 ) {
-        turnRightDegree(45);
-        turnRightDegree(degree-45);
-    }
+//    if (degree > 70 ) {
+//        turnRightDegree(45);
+//        turnRightDegree(degree-45);
+//    }
     
     int times = degree*multratio/45;
     turnright(fd);
     for (int i = 0 ; i < times ; ++i) {
         flushInfomation();
         calculateDegree();
-        if (degree < 3 && degree > -3) {
+        if (degree < 6 && degree > -6) {
             break;
         }
     }
     stop(fd);
-    for (int i = 0 ; i < 10 ; ++i) {
+    for (int i = 0 ; i < 3 ; ++i) {
         flushInfomation();
     }
+    calculateDegree();
 }
 
 
-//void turnLeftDegree(int degree) {
-//    int times = (degree+11)/22;
-//
-//    for (int i = 0 ; i < times; ++i) {
-//        turnleft(fd);
-//        int j;
-//        for (j = 0 ; j < movingFrames; ++j) {
-//            flushInfomation();
-//        }
-//        stop(fd);
-//        for (j = 0 ; j < staticFrames; ++j) {
-//            flushInfomation();
-//        }
-//    }
-//    
-//}
-//
-//void turnRightDegree(int degree) {
-//    int times = (degree+11)/22;
-//    for (int i = 0 ; i < times; ++i) {
-//        turnright(fd);
-//        int j;
-//        for (j = 0 ; j < movingFrames; ++j) {
-//            flushInfomation();
-//        }
-//        stop(fd);
-//        for (j = 0 ; j < staticFrames; ++j) {
-//            flushInfomation();
-//        }
-//    }
-//
-//}
 
 
 
 
 void turnToNextPoint() {
     int stoptime = 100;
-    printf("turn");
     stop(fd);
     cvWaitKey(stoptime);
     getNewFrame();
@@ -262,19 +210,25 @@ void turnToNextPoint() {
 
     double degree = calculateDegree();
     int count = 0;
+    double a;
     do {
         ++count;
         if (degree < 0) turnRightDegree(-degree);
         else turnLeftDegree(degree);
+        flushInfomation();
         degree = calculateDegree();
-        
-    } while ((degree > 3 && count < 10)||(count > 10 && degree > 6));
+        a  = degree;
+        if (a < 0) {
+            a = -a;
+        }
+    } while ((a > 3 && count < 5));
     
+    //||(count >= 5 && a > 6)
+    std::cout<<degree<<std::endl;
     stop(fd);
 }
 
 int gotoNextPoint() {
-    printf("go\n");
     go(fd);
     getNewFrame();
     locateCar();
@@ -312,25 +266,11 @@ void controlling(int fd) {
     mask = cvCreateImage(cvGetSize(hsv), IPL_DEPTH_8U, 1);
     backprojectF = cvCreateImage(cvGetSize(hsv), IPL_DEPTH_8U, 1);
     backprojectB = cvCreateImage(cvGetSize(hsv), IPL_DEPTH_8U, 1);
-//    cvNamedWindow("parameter");
-//    cvCreateTrackbar("vmin", "parameter", &vmin,300);
-//    cvCreateTrackbar("vmax", "parameter", &vmax, 300);
-//    cvCreateTrackbar("smin", "parameter", &smin, 300);
+
     calcHistogram(carfront,carFrontHistogram);
     calcHistogram(carback, carBackHistogram);
     cvNamedWindow(monitor);
     cvMoveWindow(monitor, leftwindowX, leftwindowY);
-//    for (int j = 0 ; j < 10 ; ++j) {
-//        myTime::reset();
-//        myTime::stopwatch();
-//        int i = 0;
-//        while (i < 100) {
-//            flushInfomation();
-//            ++i;
-//        }
-//        myTime::stopwatch();
-//        myTime::showTime();
-//    }
 
 //试验前调整，防止追踪不到
     while (true) {
@@ -353,78 +293,4 @@ void controlling(int fd) {
     }
 }
 
-//void turnLeftDegree(int degree) {
-//    int stopTime = 100;
-//    if (degree >= 30 && degree <= 60) {
-//        degree = 45;
-//    }
-//    
-//    if (degree > 60 && degree < 105) {
-//        degree = 90;
-//    }
-//    
-//    if (degree == 90) {
-//        for (int i = 0 ; i < 4 ; ++i) {
-//            turnleft(fd);
-//            customWait(22.5*8.2);
-//            stop(fd);
-//            customWait(stopTime);
-//        }
-//        return;
-//    }
-//    if (degree == 45) {
-//        for (int i = 0 ; i < 2 ; ++i) {
-//            turnleft(fd);
-//            customWait(22.5*8.2);
-//            stop(fd);
-//            customWait(stopTime);
-//        }
-//        return;
-//    }
-//    turnleft(fd);
-//    customWait(degree*8.2);
-//    stop(fd);
-//    customWait(stopTime);
-//    
-//}
-//
-//void turnRightDegree(int degree) {
-//    if (degree < 5) {
-//        return;
-//    }
-//    
-//    
-//    int stopTime = 100;
-//    
-//    if (degree >= 30 && degree <= 60) {
-//        degree = 45;
-//    }
-//    
-//    if (degree > 60 && degree < 105) {
-//        degree = 90;
-//    }
-//    
-//    if (degree == 90) {
-//        for (int i = 0 ; i < 4 ; ++i) {
-//            turnright(fd);
-//            customWait(22.5*8.2);
-//            stop(fd);
-//            customWait(stopTime);
-//        }
-//        return;
-//    }
-//    if (degree == 45) {
-//        for (int i = 0 ; i < 2 ; ++i) {
-//            turnright(fd);
-//            customWait(22.5*8.2);
-//            stop(fd);
-//            customWait(stopTime);
-//        }
-//        return;
-//    }
-//    turnright(fd);
-//    customWait(degree*8.2);
-//    stop(fd);
-//    customWait(stopTime);
-//    
-//}
+
